@@ -7,7 +7,7 @@ public class Scanner : MonoBehaviour
 {
    public float scanRange;
    public LayerMask targetLayer;
-   public RaycastHit2D[] targets;
+   public RaycastHit2D[] targets; //射线命中,检测范围内怪物成功时返回命中的object
    public Transform nearestTarget;
 
    void FixedUpdate()
@@ -21,11 +21,11 @@ public class Scanner : MonoBehaviour
    {    
         Transform result = null;
         float diff = 100;  //检测距离
-        foreach(RaycastHit2D target in targets){
+        foreach(RaycastHit2D target in targets){  //遍历更新最近的目标
             Vector3 myPos = transform.position;
             Vector3 targetPos = target.transform.position;
             float curDiff = Vector3.Distance(myPos,targetPos);
-            if(curDiff<diff){
+            if(curDiff<diff){   //
                 diff = curDiff;
                 result = target.transform;
             } 
