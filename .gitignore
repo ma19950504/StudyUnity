@@ -1,0 +1,59 @@
+# Unity .gitignore file
+
+# =============== #
+# Unity generated #
+# =============== #
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Ll]ibrary/
+[Qq]uiteditor/
+[Qq]uiteditormobile/
+[Uu]nityGenerated/
+Assets/AssetStoreTools*
+
+# ============================================= #
+# Visual Studio / MonoDevelop / Rider generated #
+# ============================================= #
+[Ee]xported[Xx]ml/
+*.csproj
+*.pidb
+*.suo
+*.user
+*.userprefs
+*.tmp
+*.bak
+*.cache
+*.edit
+*.log
+*.vspscc
+*.vssscc
+*.dbmdl
+*.dbmodel
+.ide/
+
+# =========== #
+# OS generated #
+# =========== #
+.DS_Store*
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =================== #
+# Package Management #
+# =================== #
+Packages/
+
+# ====================== #
+# Asset package sources #
+# ====================== #
+*.srcpkg.asset.meta
+
+# ============ #
+# C++ specific #
+# ============ #
+*.lib
+*.a
+*.swp
