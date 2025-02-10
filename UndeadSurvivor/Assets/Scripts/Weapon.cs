@@ -102,32 +102,28 @@ public class Weapon : MonoBehaviour
    {
        for(int i = 0; i < count; i++)
        {
-//  Debug.Log("count:"+count+"i:"+i);
-           // Debug.Log("transform.childCount:"+transform.childCount);
             
             //bullet在poolmanager中，bullet的parent为poolmanager
             //刚进入时未生成预制体，所以childcount=0
             Transform bullet;
-            if(i<transform.childCount){  //刚进入时
-                //Debug.Log("bullet:"+transform.GetChild(i).name);
-                bullet = transform.GetChild(i);
+            if(i<transform.childCount){  //初始状态Weapon下会生成3个bullet
+                bullet = transform.GetChild(i);  //如果i<3 则复用0-2的bullet(初始生成的)
             }else{
                 //Debug.Log("bullet2:"+i);
-                bullet= GameManager.instance.pool.Get(prefabsId).transform;
-                bullet.parent = transform;
+                bullet= GameManager.instance.pool.Get(prefabsId).transform; //从pool里获取新的bullet预制体
+                bullet.parent = transform; //新预制体的父对象变成weapon (就是在weapon下面加铁锹)
             }
-
-            //Debug.Log("bullet:"+bullet.parent);
             //transform为挂载脚本的对象，即Weapon
-            //Debug.Log("transform.position:"+transform.position);
             //bullet.parent = transform; //以Weapon为基准进行变动
             //bullet.position = transform.position;
-            bullet.localPosition = Vector3.zero;
-            bullet.localRotation = Quaternion.identity; //确保子弹在生成时没有初始旋转
-            //Debug.Log("bullet.position:"+bullet.position);
-            Vector3 rotVec = Vector3.forward*360*i/count;
-            bullet.Rotate(rotVec);
-            bullet.Translate(bullet.up * 1.5f ,Space.World);
+            bullet.localPosition = Vector3.zero;  //localPosition为相对位置，即以父物体为基准进行变动
+            bullet.localRotation = Quaternion.identity; //确保子弹在生成时没有初始旋转 Quaternion.identity
+
+
+            Vector3 rotVec = Vector3.forward*360*i/count; //Vector3.forward (0,0,1)
+            //i=0,  第一个铁锹0度， i=1  120度  i=2  240度  按照如上度数分配
+            bullet.Rotate(rotVec); //开始旋转 子弹将被均匀地分布在以父对象为中心的圆周上。
+            bullet.Translate(bullet.up * 1.5f ,Space.World); //从原点向上移动1.5f单位，指定移动是在世界坐标系中进行的
             bullet.GetComponent<Bullet>().Init(damage,-1,Vector3.zero); //-1为初始化无数次 
        }
    }
