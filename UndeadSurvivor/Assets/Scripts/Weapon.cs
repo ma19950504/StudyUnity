@@ -9,7 +9,7 @@ using UnityEngine.XR;
 public class Weapon : MonoBehaviour
 {
    public int id; //第n种武器 
-   public int prefabsId;
+   public int prefabsId; //预制件id  0是enemy  
    public float damage;
    public int count;  //数量
    public float speed; //旋转速度，射速
@@ -31,13 +31,16 @@ public class Weapon : MonoBehaviour
     if(!GameManager.instance.isLive) return;
     switch(id) 
        {
-           case 0: 
+           case 0: //0号武器
                //speed = 200; 
-               transform.Rotate(Vector3.back*speed*Time.deltaTime);
+               transform.Rotate(Vector3.back*speed*Time.deltaTime); //Vector3.back (0, 0, -1) 
+               //旋转方向：在 Unity 中，默认的坐标系是左手坐标系。对于绕 Z 轴的旋转：
+                //正值（例如 Vector3.forward 或正 Z 轴）通常会导致逆时针旋转。
+                //负值（例如 Vector3.back 或负 Z 轴）通常会导致顺时针旋转。
                break;
             default:
                 timer += Time.deltaTime;
-                if(timer>speed){
+                if(timer>speed){  //speed为发射间隔，射速
                     timer = 0f;
                     Fire();
                 }
@@ -53,10 +56,10 @@ public class Weapon : MonoBehaviour
    {
         this.damage = damage;
         this.count += count;
-        if(id==0) Batch();
+        if(id==0) Batch();  //第0种武器 铁锹
         player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
    }
-   public void Init(ItemData data)
+   public void Init(ItemData data)  //ItemData
    {
         name = "Weapon-"+data.itmeId;
         transform.parent = player.transform;
@@ -95,11 +98,11 @@ public class Weapon : MonoBehaviour
        player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
    } 
 
-   void Batch()
+   void Batch() //只有铁锹用到了  初始状态count是3
    {
        for(int i = 0; i < count; i++)
        {
-//            Debug.Log("count:"+count+"i:"+i);
+//  Debug.Log("count:"+count+"i:"+i);
            // Debug.Log("transform.childCount:"+transform.childCount);
             
             //bullet在poolmanager中，bullet的parent为poolmanager
@@ -130,10 +133,11 @@ public class Weapon : MonoBehaviour
    }
     void Fire()
     {
-        if(!player.scanner.nearestTarget) return;
+        if(!player.scanner.nearestTarget) return; //是否有目标
         Vector3 targetPos = player.scanner.nearestTarget.position;
         Vector3 dir = (targetPos - transform.position).normalized;
         Transform bullet= GameManager.instance.pool.Get(prefabsId).transform;
+        //0是enmey  1是铁锹 2是子弹  在init中确认id
         bullet.position = transform.position;
         bullet.rotation = Quaternion.FromToRotation(Vector3.up,dir);
         bullet.GetComponent<Bullet>().Init(damage,count,dir); 

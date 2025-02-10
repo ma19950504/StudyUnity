@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Scriptable Object/Item")]
+//直接可以右键创建Item类型的object
+//Data文件夹中存放着
+
 public class ItemData : ScriptableObject
 {
     public enum ItemType {Melee,Range,Glove,Shoe,Heal};

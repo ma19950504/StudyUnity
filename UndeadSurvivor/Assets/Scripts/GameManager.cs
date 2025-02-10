@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     IEnumerator GameOverCoroutine()
     {
         isLive = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f);  //yield return new WaitForSeconds(seconds);：等待指定的秒数。
         uiResult.gameObject.SetActive(true);
         uiResult.Lose();
         Stop();

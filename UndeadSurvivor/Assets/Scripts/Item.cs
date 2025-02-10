@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
 
+//专门用于存放各类数据
 public class Item : MonoBehaviour
 {
     public ItemData data;
