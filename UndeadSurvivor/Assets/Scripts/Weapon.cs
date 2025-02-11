@@ -58,10 +58,11 @@ public class Weapon : MonoBehaviour
         this.count += count;
         if(id==0) Batch();  //第0种武器 铁锹
         player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
+        //用于向当前对象及其所有子对象发送消息  同步升级
    }
    public void Init(ItemData data)  //ItemData
    {
-        name = "Weapon-"+data.itmeId;
+        name = "Weapon-"+data.itmeId;  //name是GameObject的属性 
         transform.parent = player.transform;
         transform.localPosition = Vector3.zero;
 
@@ -70,6 +71,7 @@ public class Weapon : MonoBehaviour
         damage = data.baseDamage;
         count = data.baseCount;
 
+        //找到与当前武器关联的预制体，并记录其索引 prefabsId，以便后续从对象池中获取相应的预制体实例：
         for(int i = 0;i<GameManager.instance.pool.prefabs.Length;i++){
             if(data.projectiles == GameManager.instance.pool.prefabs[i]){
                 prefabsId = i;
@@ -94,7 +96,6 @@ public class Weapon : MonoBehaviour
        Hands hand = player.hands[(int)data.itemType];
        hand.spriter.sprite = data.hand;
        hand.gameObject.SetActive(true);
-       Debug.Log("进入进入");
        player.BroadcastMessage("ApplyGear",SendMessageOptions.DontRequireReceiver);
    } 
 
@@ -136,6 +137,7 @@ public class Weapon : MonoBehaviour
         //0是enmey  1是铁锹 2是子弹  在init中确认id
         bullet.position = transform.position;
         bullet.rotation = Quaternion.FromToRotation(Vector3.up,dir);
+        //将子弹的方向从向上方向（Vector3.up）旋转到目标方向（dir）：
         bullet.GetComponent<Bullet>().Init(damage,count,dir); 
 
     }

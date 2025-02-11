@@ -27,7 +27,6 @@ public class Bullet : MonoBehaviour
     {
         if(!collider.CompareTag("Enemy") || per == -1) return;
         per--;
-        Debug.Log("per==============="+per);
         if(per == -1){
             rb.velocity = Vector3.zero;
             gameObject.SetActive(false);
