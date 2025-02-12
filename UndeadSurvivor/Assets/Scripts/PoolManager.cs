@@ -21,15 +21,12 @@ public class PoolManager : MonoBehaviour
     {
        
         GameObject select = null;
-        //Debug.Log("PoolManager Awake Length"+pools.Length);
         foreach(GameObject item in pools[index])
         {
-            //Debug.Log("进入Select"+item.activeSelf);
             if(!item.activeSelf)
             {
                 select = item;
                 select.SetActive(true);
-                //Debug.Log("获取"+index+"进入1");
                 break;
             }
         
